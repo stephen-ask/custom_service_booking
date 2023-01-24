@@ -1,0 +1,9 @@
+language: php
+php:
+  - '5.5'
+script: phpunit lib/test
+notifications:
+   email:
+      recipients:
+       - jeanpaul.manjarres@payulatam.com
+      on_success: change

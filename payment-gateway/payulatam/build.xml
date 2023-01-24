@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     5/03/2014 14:07:12                                                        
+
+	 payu-php-sdk release builder  
+     this project build a version of PAYU PHP SDK
+                   
+     ====================================================================== -->
+<project name="payu-php-sdk" default="build">
+    <description>
+		Build a version of payu php SDK
+    </description>
+
+	<property file="build.properties"/>
+	
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="build" depends="getFileName" description="description">
+    	<zip destfile="${release.folder}/${release.name}-${sdk-build-date}.${release.extension}"
+				basedir="./"
+    			encoding="UTF-8"
+				update="true"
+				excludes="lib/test/**, .buildpath, .project, 
+    					 php_unit.xml,**/.settings/**,build.*,
+    					 README.txt"	
+    	  />
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="getFileName" >
+		<tstamp>
+			<format property="sdk-build-date" timezone="GMT-5"  pattern="dd-MM-yyyy"/>
+		</tstamp>
+    </target>
+	
+</project>
