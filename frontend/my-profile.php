@@ -249,6 +249,10 @@ wp_add_inline_script( 'service_finder-js-provider-quote-form', '/*Declare global
 				<!-- provider menu -->
 				<li class="<?php echo ($tabname == 'products' || $tabname == 'product') ? 'active' : ''; ?> <?php echo ($atleastone) ? 'has-child' : '';?>">
 					<a href="#products"><span class="admin-nav-text">Products</span></a>
+                    <ul class="sub-menu"> 
+                        <li><a href="#products"><span class="admin-nav-text">Add Product</span></a></li>        
+                        <li><a href="#products-list"><span class="admin-nav-text">Product List</span></a></li>
+                    </ul>
 				</li>
 				<li class="<?php echo ($tabname == 'posts' || $tabname == 'post') ? 'active' : ''; ?> <?php echo ($atleastone) ? 'has-child' : '';?>">
 					<a href="#posts"><span class="admin-nav-text">Posts</span></a>
@@ -257,7 +261,7 @@ wp_add_inline_script( 'service_finder-js-provider-quote-form', '/*Declare global
 					<a href="#meetings"><span class="admin-nav-text">Meetings</span></a>
                     <ul class="sub-menu"> 
                             <li><a href="#meeting-list"><span class="admin-nav-text">Meeting List</span></a></li>
-                            <li><a href="#add-meeting"><span class="admin-nav-text">Add Meeting</span></a></li>
+                            <li><a href="#meetings"><span class="admin-nav-text">Add Meeting</span></a></li>
                             <li><a href="#zoom-credentials"><span class="admin-nav-text">Zoom Credentials</span></a></li>
                     </ul>
 				</li>
@@ -279,12 +283,7 @@ wp_add_inline_script( 'service_finder-js-provider-quote-form', '/*Declare global
                     </a></li>
                 <?php }
 				?>
-                <?php if($service_finder_options['quotation-menu']){ ?>
-                <li class="<?php echo ($tabname == 'quotation') ? 'active' : ''; ?>"><a href="#quotation"><i
-                            class="fa fa-file-text-o"></i>
-                        <?php echo (!empty($service_finder_options['label-quotation'])) ? esc_html($service_finder_options['label-quotation']) : esc_html__('Quotation', 'service-finder'); ?>
-                    </a></li>
-                <?php } ?>
+          
                 <?php if(service_finder_offers_method($globalproviderid) == 'booking' && $service_finder_options['offers-menu']){ ?>
                 <li class="<?php echo ($tabname == 'offers') ? 'active' : ''; ?>"><a href="#offers"><i
                             class="fa fa-gift"></i>
@@ -537,6 +536,10 @@ wp_add_inline_script( 'service_finder-js-provider-quote-form', '/*Declare global
 		
 		<div id="products" class="tab-pane fade <?php echo ($tabname == 'products') ? 'in active' : ''; ?>">
 			<?php require SERVICE_FINDER_BOOKING_FRONTEND_MODULE_DIR . '/product/add_new_product.php'; ?>
+		</div>
+
+        <div id="products-list" class="tab-pane fade <?php echo ($tabname == 'products-list') ? 'in active' : ''; ?>">
+			<?php echo do_shortcode('[influencer_product_list]'); ?>
 		</div>
 		
 		<div id="posts" class="tab-pane fade <?php echo ($tabname == 'posts') ? 'in active' : ''; ?>">

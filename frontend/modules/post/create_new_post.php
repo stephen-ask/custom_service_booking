@@ -49,6 +49,11 @@ $post_image = wp_get_attachment_image_url(5921, 'thumbnail');
         </div>
     </div>
     </div>
+    <div class="panel panel-default gallery-images">
+        <div class="panel-heading sf-panel-heading">
+            <input type="submit" value="Create A Post" class='btn-primary btn'>
+        </div>
+    </div>
 </form>
 <script>
     (function($){
@@ -76,7 +81,7 @@ $post_image = wp_get_attachment_image_url(5921, 'thumbnail');
 
             form.append('title', product_name);
             form.append('description', slug);
-            form.append('post_image', price);
+            form.append('post_image', product_image);
          
 			if(token != '') {
                 const response = await fetch(apiUrl, {
@@ -92,7 +97,7 @@ $post_image = wp_get_attachment_image_url(5921, 'thumbnail');
                 var alertClass = (res == 'Success') ? 'alert-success' : 'alert-danger';
 
                 setTimeout(() => {
-                    jQuery('#create_new_product').prepend('<div class="alert '+alertClass+'">'+msg+'</div>');
+                    jQuery('#create_new_post').prepend('<div class="alert '+alertClass+'">'+msg+'</div>');
                 }, "2000");
 
             } else {

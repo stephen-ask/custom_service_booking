@@ -1,3 +1,7 @@
+<?php
+$api_key = get_user_meta(get_current_user_id(), 'zoom_api_key', true);
+$secret_key = get_user_meta(get_current_user_id(), 'zoom_secret_key',  true);
+?>
 <form id='zoom-settings'>
     <div class="panel panel-default about-me-here">
             <div class="panel-heading sf-panel-heading">
@@ -11,7 +15,7 @@
                                 <?php esc_html_e('Api key', 'service-finder'); ?>
                             </label>
                             <div class="form-group">
-                                <input type="text" name="api_key" id="api_key" class='form-control'>
+                                <input type="text" name="api_key" id="api_key" class='form-control' value="<?=$api_key;?>">
                             </div>
                         </div>
                     </div>
@@ -21,7 +25,7 @@
                                 <?php esc_html_e('Secret key', 'service-finder'); ?>
                             </label>
                             <div class="form-group">
-                                <input type="text" name="secret_key" id="secret_key" class='form-control'>
+                                <input type="text" name="secret_key" id="secret_key" class='form-control' value="<?=$secret_key;?>">
                             </div>
                         </div>
                     </div>
@@ -36,9 +40,10 @@
 </form>
 
 <script>
+ 
     jQuery('#zoom-settings').submit( async function(e){
         e.preventDefault();
-        let token = localStorage.getItem('token') ?? '';
+        let token = localStorage.getItem('token') ?? '<?=$_SESSION['token'];?>';
         let ajaxUrl = '<?=get_home_url(); ?>/wp-json/zoom/settings';
 
         let api_key = jQuery('#api_key').val();
@@ -48,7 +53,7 @@
         var form = new FormData();
 
         form.append('api_key', api_key);
-        form.append('description', slug);
+        form.append('secret_key', secret_key);
     
         
         if(token != '') {
@@ -61,8 +66,8 @@
             });
             const res = await response.json();
             
-            var msg = (res == 'Success') ? 'Product Created' : 'Failed to Create Product';
-            var alertClass = (res == 'Success') ? 'alert-success' : 'alert-danger';
+            var msg = (res.status == 'Success' || res.status == 'success') ? 'API keys updated' : 'Failed to update keys';
+            var alertClass = (res.status == 'Success' || res.status == 'success') ? 'alert-success' : 'alert-danger';
 
             setTimeout(() => {
                 jQuery('#zoom-settings').prepend('<div class="alert '+alertClass+'">'+msg+'</div>');

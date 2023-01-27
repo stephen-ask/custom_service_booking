@@ -1876,42 +1876,13 @@ $bgopacity = (!empty($service_finder_options['inner-banner-opacity'])) ? $servic
 							  <div class="tab-content">
 								  <div id="tab-meetup" class="tab-pane active">
 									  <div class="sf-meetup-tab">
-										  <?php //echo do_shortcode('[elementor-template id="5437"]'); ?>
-										  <div class="row">
-
-											  <div class="col-lg-6 col-md-6">
-												  <div class="meetup-card">
-													  <div class="meetup-img" style="background-image: url('https://wediscover.solstium.net/wp-content/uploads/2022/12/Group-90408-768x492.png')">
-														  <a href="#"><i class="fas fa-share-alt shared-icon"></i></a>
-													  </div>
-													  <div class="card-content">
-														  <h4>
-															  Lorem Ipsum meeting title
-														  </h4>
-														  <p>
-															  Travel
-														  </p>
-														  <div class="meet-wrap">
-															  <div class="meet-up-description">
-																  <i class="fa fa-calendar"></i> <div class="date">August 12, 2022 at 12:00 P.M
-																  </div>
-																  <div class="right">
-																	<i class="fa fa-user"></i><div class="bookings">700 Booking</div>  
-																  </div>																 
-															  </div>
-														  </div>
-														  <a href="#" class="meetup-remainder">Set Remainder</a>
-													  </div>
-												  </div>
-											  </div>
-										  </div>
+										  <?php echo do_shortcode('[meetup_grid]'); ?>
 									  </div>
 								  </div>
 								  <div id="tab-product" class="tab-pane">
 									  <div class="sf-product-tab">
 										  <?php // echo do_shortcode('[elementor-template id="5612"]'); ?>
-		
-										  
+
 	  									<?php 
 	  										$current_user_products = wc_get_products( array(
 												'status'    => 'publish',
