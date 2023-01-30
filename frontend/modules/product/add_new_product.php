@@ -243,5 +243,5 @@ $product_image = wp_get_attachment_image_url(5921, 'thumbnail');
     })(jQuery);
     
 </script>
-<?php wp_footer();?>
+<?php //wp_footer();?>
 
