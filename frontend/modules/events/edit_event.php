@@ -1,15 +1,16 @@
 <?php
 $event_image  = wp_get_attachment_image_url(5921, 'thumbnail');
+// var_dump(@$_GET['meeting']);
 ?>
 <style>
     .reoccuring {
         width: 100%;
     }
 </style>
-<form action="" id="create_new_event">
+<form action="" id="edit_event">
 <div class="panel panel-default about-me-here">
         <div class="panel-heading sf-panel-heading">
-            <h3 class="panel-tittle m-a0"><span class="fa fa-user"></span> <?php esc_html_e('Add New Event', 'service-finder'); ?> </h3>
+            <h3 class="panel-tittle m-a0"><span class="fa fa-user"></span> <?php esc_html_e('Edit Event', 'service-finder'); ?> </h3>
         </div>
         <div class="panel-body sf-panel-body padding-30">
             <div class="row">
@@ -182,40 +183,33 @@ $event_image  = wp_get_attachment_image_url(5921, 'thumbnail');
 <script>
 
     (function($){
-
+        
         var today = new Date();
         var token = localStorage.getItem('token') ?? '<?= $_SESSION['token'];?>';
-        var ajaxUrl = '<?=get_site_url(); ?>/wp-json/zoom/user/list';
+        var ajaxUrl = '<?=get_site_url(); ?>/wp-json/v1/meetings/get';
+        var getdata = new FormData();
+        
+        let url = window.location.href;
+        let event_id = url.split('?meeting=')[0];
+        getdata.append('event_id', event_id);
+        
+        $('.event_action').click(function(){
+            console.log(event_id);
 
-        var fetch_users = async (ajaxUrl) => {
-
+            var fetch_data = async (ajaxUrl) => {
                 var response = await fetch(ajaxUrl,  {
+                    method: "POST",
+                    body: getdata, 
                     headers: {
                         'Authorization': 'Bearer '+ token
                     }
                 });
                 var res = await response.json();
-                var option = bs_option ='';
+                console.log(response);
+            }
+            fetch_data(ajaxUrl);
+        });
 
-                Object.entries(res.users).forEach((array) => {
-                    array.forEach((value, index) => {
-                
-                        if( value.id == undefined) return; 
-
-                        option += '<option value="'+ value.id +'">'+ value.display_name + '</option>'; 
-
-                        bs_option += '<li  data-original-index="'+index+'">';
-                            bs_option += '<a data-tokens="null" tabindex="'+index+'"><span class="text">'+value.display_name+'</span></a>';
-                        bs_option += '</li>';
-
-                    });
-                });
-            $('#user_id').append(option);
-    
-            $("select + .bootstrap-select .dropdown-menu.inner").append(bs_option);
-        } 
-
-       fetch_users(ajaxUrl); // .then(res => console.log('res '+ res));
        document.getElementById("start_time").defaultValue = today.getHours() + ":" + today.getMinutes(); 
 
        $('#event_image').change(function(event){
@@ -230,7 +224,7 @@ $event_image  = wp_get_attachment_image_url(5921, 'thumbnail');
     });
    })(jQuery);
 
-    jQuery('#create_new_event').submit( async function(e){
+    jQuery('#edit_event').submit( async function(e){
         e.preventDefault();
         let token = localStorage.getItem('token') ?? '<?=$_SESSION['token'];?>';
         let ajaxUrl = '<?=get_home_url(); ?>/wp-admin/admin-ajax.php';
@@ -246,11 +240,12 @@ $event_image  = wp_get_attachment_image_url(5921, 'thumbnail');
         let etn_end_time = jQuery('#end_time').val();
         let reaccurring = 'off';
         let totaltickets = 99999;
-        let price = 0;
-        let regular_price = 0;
-        let sale_price = 0;
-        let stock = 0;
-        
+        let price = regular_price = sale_price = stock = 0;
+       
+        let url = window.location.href;
+        let event_id = url.split('?meeting=')[0];
+        // getdata.append('event_id', event_id);
+
         // let product_image = document.getElementById('event_image').files[0];
         var form = new FormData();
 
@@ -281,8 +276,9 @@ $event_image  = wp_get_attachment_image_url(5921, 'thumbnail');
         form.append('_regular_price', regular_price);
         form.append('_sale_price', sale_price);
         form.append('_stock', stock);
+        form.append('_stock', stock);
         form.append('action', 'elementor_create_meeting');
-        
+        form.append('meeting_id', event_id);
         
         if(token != '') {
             const response = await fetch(ajaxUrl, {
@@ -299,8 +295,6 @@ $event_image  = wp_get_attachment_image_url(5921, 'thumbnail');
             var msg = (res.success == true ) ? 'Meeting Created' : 'Failed to create a Meeting';
             var alertClass = (res.success == true ) ? 'alert-success' : 'alert-danger';
             
-            
-
             setTimeout(() => {
                 jQuery('#create_new_event').prepend('<div class="alert '+alertClass+'">'+msg+'</div>');
             }, "2000");

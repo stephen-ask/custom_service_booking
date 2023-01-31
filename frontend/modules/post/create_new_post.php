@@ -93,8 +93,8 @@ $post_image = wp_get_attachment_image_url(5921, 'thumbnail');
                 });
                 const res = await response.json();
 				
-                var msg = (res == 'Success') ? 'Product Created' : 'Failed to Create Product';
-                var alertClass = (res == 'Success') ? 'alert-success' : 'alert-danger';
+                var msg = (res.status == 'Success') ? 'Post Created' : 'Failed to Create Post';
+                var alertClass = (res.status == 'Success') ? 'alert-success' : 'alert-danger';
 
                 setTimeout(() => {
                     jQuery('#create_new_post').prepend('<div class="alert '+alertClass+'">'+msg+'</div>');

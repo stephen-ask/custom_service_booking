@@ -260,7 +260,7 @@ wp_add_inline_script( 'service_finder-js-provider-quote-form', '/*Declare global
                 <li class="<?php echo ($tabname == 'meetings' || $tabname == 'meeting') ? 'active' : ''; ?> <?php echo ($atleastone) ? 'has-child' : '';?>">
 					<a href="#meetings"><span class="admin-nav-text">Meetings</span></a>
                     <ul class="sub-menu"> 
-                            <li><a href="#meeting-list"><span class="admin-nav-text">Meeting List</span></a></li>
+                            <li><a href="#meeting-list"><span class="admin-nav-text">All Meetings</span></a></li>
                             <li><a href="#meetings"><span class="admin-nav-text">Add Meeting</span></a></li>
                             <li><a href="#zoom-credentials"><span class="admin-nav-text">Zoom Credentials</span></a></li>
                     </ul>
@@ -549,7 +549,15 @@ wp_add_inline_script( 'service_finder-js-provider-quote-form', '/*Declare global
         <div id="meetings" class="tab-pane fade <?php echo ($tabname == 'meetings') ? 'in active' : ''; ?>">
 			<?php require SERVICE_FINDER_BOOKING_FRONTEND_MODULE_DIR . '/events/add_new_event.php'; ?>
 		</div>
+        
+        <div id="meeting-list" class="tab-pane fade <?php echo ($tabname == 'meetings_list') ? 'in active' : ''; ?>">
+			<?php echo do_shortcode('[influencer_meeting_list]'); ?>
+		</div>
 
+        <div id="edit_meetings" class="tab-pane fade <?php echo ($tabname == 'edit_meetings') ? 'in active' : ''; ?>">
+            <?php require SERVICE_FINDER_BOOKING_FRONTEND_MODULE_DIR . '/events/edit_event.php'; ?>
+		</div>
+        
         <div id="zoom-credentials" class="tab-pane fade <?php echo ($tabname == 'zoom-credentials') ? 'in active' : ''; ?>">
 			<?php require SERVICE_FINDER_BOOKING_FRONTEND_MODULE_DIR . '/events/zoom_settings.php'; ?>
 		</div>
@@ -557,6 +565,23 @@ wp_add_inline_script( 'service_finder-js-provider-quote-form', '/*Declare global
     </div>
     <!-- Right part END -->
 </div>
+
+<script>
+    (function($){
+        $('.event_action').click(function(){
+            let id = $(this).attr('data-section-id');
+            let section = $(id);
+
+            $('#content .tab-content div').removeClass('active in');
+            $('#content .tab-content').find(section).addClass('active in');
+            if( $('#content .tab-content').find(section)) {
+                console.log('active ');
+            } else {
+                console.log('fails');
+            }
+        });
+    })(jQuery);
+</script>
 
 <!-- Provider Section End -->
 <?php }elseif(service_finder_getUserRole($current_user->ID) == 'Customer'){ 
