@@ -221,6 +221,8 @@ $event_image  = wp_get_attachment_image_url(5921, 'thumbnail');
         //     }
         //     reader.readAsDataURL(file);
         // }
+
+        
     });
    })(jQuery);
 
